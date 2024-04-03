@@ -1,0 +1,19 @@
+{
+  "name": "ts-mocha-go",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-mocha test/* .ts" 
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.30",
+    "mocha": "^10.4.0",
+    "ts-mocha": "^10.0.0",
+    "typescript": "^5.4.3"
+  }
+}
