@@ -1,31 +1,31 @@
 import assert from "assert";
-import greet from "../greet";
+import Greeter, { GreetInEnglish, GreetInTswana, GreetInXhosa } from "../greet";
+import GreetIn from "../greetIn";
 import { language } from "../language";
 
 
-// it("should greet 'Bob'", () => {
-//     assert.equal("Hello, Bob Crow we can't contact you.", greet({
-//         firstName: "Bob",
-//         lastName: "Crow",
-//         email: "BobCrow@gmail"
-//     }));
-// });
+let greetMap = new Map<language, GreetIn>();
+greetMap.set(language.eng, new GreetInEnglish);
+greetMap.set(language.tswana, new GreetInTswana);
+greetMap.set(language.xhosa, new GreetInXhosa);
+
+let greeter = new Greeter(greetMap);
 
 it("should greet in Xhosa", () => {
-    const xhosaGreeter = greet("FakeUser", language.xhosa);
-    assert.equal("Molo FakeUser", xhosaGreeter);
+    const xhosaGreeter = greeter.greet("FakeUserOne", language.xhosa);
+    assert.equal("Molo FakeUserOne", xhosaGreeter);
 });
 
 
 
 it("should greet in Twana", () => { 
-    const tswanaGreeter = greet("FakeUser", language.tswana);
-    assert.equal("Dumela FakeUser", tswanaGreeter);
+    const tswanaGreeter = greeter.greet("FakeUserTwo", language.tswana);
+    assert.equal("Dumela FakeUserTwo", tswanaGreeter);
 });
 
 
 
 it("should greet in English", () => { 
-    const englishGreeter = greet("FakeUser", language.eng);
-    assert.equal("Hello FakeUser", englishGreeter);
+    const englishGreeter = greeter.greet("FakeUserThree", language.eng);
+    assert.equal("Hello FakeUserThree", englishGreeter);
 });
