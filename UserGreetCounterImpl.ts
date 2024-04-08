@@ -1,4 +1,4 @@
-import UserGreetCounter from "./userGreetCounterInt";
+import UserGreetCounter from "./UserGreetCounterInt";
 
 export default class MapUserGreetCounter implements UserGreetCounter {
     private greetCounts : Map<string, number>;
@@ -9,12 +9,7 @@ export default class MapUserGreetCounter implements UserGreetCounter {
 
     countGreet(firstName: string) : void {
         let currentCount = this.greetCounts.get(firstName) || 0;
-
-        if (!currentCount) {
-            this.greetCounts.set(firstName, 1);
-        }
-
-        else this.greetCounts.set(firstName, currentCount + 1);
+        this.greetCounts.set(firstName, currentCount + 1);
     };
 
     get greetCounter(): number {

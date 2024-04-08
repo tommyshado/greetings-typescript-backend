@@ -1,7 +1,7 @@
 import assert from "assert";
 import Greeter, { GreetInEnglish, GreetInTswana, GreetInXhosa } from "../Greet";
-import GreetIn from "../greetIn";
-import { language } from "../language";
+import GreetIn from "../GreetIn";
+import { language } from "../Language";
 import MapUserGreetCounter from "../UserGreetCounterImpl";
 
 let greetMap = new Map<language, GreetIn>();
@@ -27,7 +27,6 @@ it("should greet in English", () => {
 });
 
 // Testing UserGreetCounter implementation
-
 
 it("should increment greet counter", () => {
     let userGreetCounterMap = new MapUserGreetCounter();

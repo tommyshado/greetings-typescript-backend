@@ -1,5 +1,5 @@
-import GreetIn from "./greetIn";
-import { language } from "./language";
+import GreetIn from "./GreetIn";
+import { language } from "./Language";
 
 export class GreetInXhosa implements GreetIn {
     greet(name: string): string {
