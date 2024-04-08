@@ -1,8 +1,8 @@
 import assert from "assert";
-import Greeter, { GreetInEnglish, GreetInTswana, GreetInXhosa } from "../greet";
+import Greeter, { GreetInEnglish, GreetInTswana, GreetInXhosa } from "../Greet";
 import GreetIn from "../greetIn";
 import { language } from "../language";
-import MapUserGreetCounter from "../userGreetCounterImpl";
+import MapUserGreetCounter from "../UserGreetCounterImpl";
 
 let greetMap = new Map<language, GreetIn>();
 greetMap.set(language.eng, new GreetInEnglish);

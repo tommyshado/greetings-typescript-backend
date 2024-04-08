@@ -27,14 +27,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const assert_1 = __importDefault(require("assert"));
-const greet_1 = __importStar(require("../greet"));
+const Greet_1 = __importStar(require("../Greet"));
 const language_1 = require("../language");
-const userGreetCounterImpl_1 = __importDefault(require("../userGreetCounterImpl"));
+const UserGreetCounterImpl_1 = __importDefault(require("../UserGreetCounterImpl"));
 let greetMap = new Map();
-greetMap.set(language_1.language.eng, new greet_1.GreetInEnglish);
-greetMap.set(language_1.language.tswana, new greet_1.GreetInTswana);
-greetMap.set(language_1.language.xhosa, new greet_1.GreetInXhosa);
-let greeter = new greet_1.default(greetMap);
+greetMap.set(language_1.language.eng, new Greet_1.GreetInEnglish);
+greetMap.set(language_1.language.tswana, new Greet_1.GreetInTswana);
+greetMap.set(language_1.language.xhosa, new Greet_1.GreetInXhosa);
+let greeter = new Greet_1.default(greetMap);
 it("should greet in Xhosa", () => {
     const xhosaGreeter = greeter.greet("FakeUserOne", language_1.language.xhosa);
     assert_1.default.equal("Molo FakeUserOne", xhosaGreeter);
@@ -49,14 +49,14 @@ it("should greet in English", () => {
 });
 // Testing UserGreetCounter implementation
 it("should increment greet counter", () => {
-    let userGreetCounterMap = new userGreetCounterImpl_1.default();
+    let userGreetCounterMap = new UserGreetCounterImpl_1.default();
     userGreetCounterMap.countGreet("User");
     userGreetCounterMap.countGreet("UserOne");
     userGreetCounterMap.countGreet("UserTwo");
     assert_1.default.equal(3, userGreetCounterMap.greetCounter);
 });
 it("should get user greets", () => {
-    let userGreetCounterMap = new userGreetCounterImpl_1.default();
+    let userGreetCounterMap = new UserGreetCounterImpl_1.default();
     userGreetCounterMap.countGreet("User");
     userGreetCounterMap.countGreet("User");
     userGreetCounterMap.countGreet("UserOne");

@@ -12,21 +12,16 @@ export default class MapUserGreetCounter implements UserGreetCounter {
 
         if (!currentCount) {
             this.greetCounts.set(firstName, 1);
-            console.log("*****", this.greetCounts.get(firstName));
         }
 
         else this.greetCounts.set(firstName, currentCount + 1);
     };
 
     get greetCounter(): number {
-        console.log(this.greetCounts.size);
-        
         return this.greetCounts.size;
     };
 
     userGreetCount(firstName: string): number {
-        console.log(this.greetCounts);
-        
         return this.greetCounts.get(firstName) || 0;
     }
 }
