@@ -3,7 +3,7 @@ import Greeter, { GreetInEnglish, GreetInTswana, GreetInXhosa } from "../Greet";
 import GreetIn from "../GreetIn";
 import { language } from "../Language";
 import MapUserGreetCounter from "../UserGreetCounterImpl";
-import pool from "../model/pool";
+import pool from "../model/Pool";
 
 let greetMap = new Map<language, GreetIn>();
 greetMap.set(language.eng, new GreetInEnglish);
