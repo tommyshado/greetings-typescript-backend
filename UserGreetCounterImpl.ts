@@ -14,7 +14,6 @@ export default class MapUserGreetCounter implements UserGreetCounter {
             `
                 insert into user_greet_counter (name, greet_count) values ($1, $2) 
                 on conflict (name) do update set greet_count = user_greet_counter.greet_count + 1
-                returning greet_count
             `, [firstName, 1])
     };
 
