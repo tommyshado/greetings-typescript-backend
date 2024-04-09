@@ -6,28 +6,27 @@ export default class MapUserGreetCounter implements UserGreetCounter {
 
     constructor(dbPool: Pool) {
         this.dbPool = dbPool;
-    };
+    }
 
     async countGreet(firstName: string): Promise<void> {
-
-        await this.dbPool.query(
-            `
-                insert into user_greet_counter (name, greet_count) values ($1, $2) 
-                on conflict (name) do update set greet_count = user_greet_counter.greet_count + 1
-            `, [firstName, 1])
-    };
+        const query = `
+                        insert into user_greet_counter (name, greet_count) values ($1, $2) 
+                        on conflict (name) do update set greet_count = user_greet_counter.greet_count + 1
+                    `;
+        await this.dbPool.query(query, [firstName, 1]);
+    }
 
     get greetCounter(): Promise<number> {
         return (async () => {
-
-            const results = await this.dbPool.query("select count(*) from user_greet_counter");
+            const query = "select count(*) from user_greet_counter";
+            const results = await this.dbPool.query(query);
             return results.rows[0].count;
-
-        })()
-    };
+        })();
+    }
 
     async userGreetCount(firstName: string): Promise<number> {
-        const results = this.dbPool.query("select greet_count from user_greet_counter where name = $1", [firstName]);
+        const query = "select greet_count from user_greet_counter where name = $1";
+        const results = this.dbPool.query(query, [firstName]);
         return (await results).rows[0].greet_count;
     }
 }

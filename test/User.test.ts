@@ -10,33 +10,28 @@ greetMap.set(language.eng, new GreetInEnglish);
 greetMap.set(language.tswana, new GreetInTswana);
 greetMap.set(language.xhosa, new GreetInXhosa);
 
-
 let userGreetCounterMap = new MapUserGreetCounter(pool);
 let greeter = new Greeter(greetMap, userGreetCounterMap);
 
-
 describe("Greetings with TypeScript", async function() {
-
     this.timeout(10000);
 
     beforeEach(async () => {
-        await pool.query("truncate table user_greet_counter restart identity");
+        const query = "truncate table user_greet_counter restart identity";
+        await pool.query(query);
     });
 
     it("should greet in Xhosa", async () => {
-    
         const xhosaGreeter = await greeter.greet("FakeUserOne", language.xhosa);
         assert.equal("Molo FakeUserOne", xhosaGreeter);
     });
     
     it("should greet in Twana", async () => {
-    
         const tswanaGreeter = await greeter.greet("FakeUserTwo", language.tswana);
         assert.equal("Dumela FakeUserTwo", tswanaGreeter);
     });
     
     it("should greet in English", async () => {
-    
         const englishGreeter = await greeter.greet("FakeUserThree", language.eng);
         assert.equal("Hello FakeUserThree", englishGreeter);
     });
@@ -44,7 +39,6 @@ describe("Greetings with TypeScript", async function() {
     // Testing UserGreetCounter implementation
     
     it("should increment greet counter", async () => {
-    
         await greeter.greet("User", language.eng);
         await greeter.greet("UserOne", language.xhosa);
         await greeter.greet("UserTwo", language.eng);
@@ -55,11 +49,9 @@ describe("Greetings with TypeScript", async function() {
         await greeter.greet("UserFour", language.eng);
     
         assert.equal(5, await greeter.greetCounter);
-        
     });
     
     it("should get user greets", async () => {
-    
         await greeter.greet("User", language.tswana);
         await greeter.greet("User", language.xhosa);
         await greeter.greet("UserOne", language.xhosa);
@@ -72,9 +64,7 @@ describe("Greetings with TypeScript", async function() {
         await greeter.greet("UserTwo", language.eng);
     
         assert.equal(3, await greeter.userGreetCount("UserTwo"));
-    
     });
 
     this.afterAll(async () => await pool.end());
-    
 })

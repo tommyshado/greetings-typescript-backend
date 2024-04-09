@@ -20,7 +20,6 @@ export class GreetInTswana implements GreetIn {
     }
 };
 
-
 export default class Greeter {
     private greetLanguages: Map<language, GreetIn>
     private userGreetCounter: UserGreetCounter
@@ -38,7 +37,6 @@ export default class Greeter {
         if (greetIn) {
             return greetIn.greet(name);
         };
-
         return "";
     };
 
