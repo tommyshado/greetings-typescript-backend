@@ -1,22 +1,34 @@
 import UserGreetCounter from "./UserGreetCounterInt";
+import { Pool } from "pg";
 
 export default class MapUserGreetCounter implements UserGreetCounter {
-    private greetCounts : Map<string, number>;
-    
-    constructor() {
-        this.greetCounts = new Map<string, number>();
+    private dbPool: Pool;
+
+    constructor(dbPool: Pool) {
+        this.dbPool = dbPool;
     };
 
-    countGreet(firstName: string) : void {
-        let currentCount = this.greetCounts.get(firstName) || 0;
-        this.greetCounts.set(firstName, currentCount + 1);
+    async countGreet(firstName: string): Promise<void> {
+
+        await this.dbPool.query(
+            `
+                insert into user_greet_counter (name, greet_count) values ($1, $2) 
+                on conflict (name) do update set greet_count = user_greet_counter.greet_count + 1
+                returning greet_count
+            `, [firstName, 1])
     };
 
-    get greetCounter(): number {
-        return this.greetCounts.size;
+    get greetCounter(): Promise<number> {
+        return (async () => {
+
+            const results = await this.dbPool.query("select count(*) from user_greet_counter");
+            return results.rows[0].count;
+
+        })()
     };
 
-    userGreetCount(firstName: string): number {
-        return this.greetCounts.get(firstName) || 0;
+    async userGreetCount(firstName: string): Promise<number> {
+        const results = this.dbPool.query("select greet_count from user_greet_counter where name = $1", [firstName]);
+        return (await results).rows[0].greet_count;
     }
 }

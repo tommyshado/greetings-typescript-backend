@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ts-mocha test/* .ts" 
+    "test": "ts-mocha test/* .ts"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +15,12 @@
     "mocha": "^10.4.0",
     "ts-mocha": "^10.0.0",
     "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "@types/pg": "^8.11.5",
+    "@types/pg-promise": "^5.4.3",
+    "dotenv": "^16.4.5",
+    "pg": "^8.11.5",
+    "pg-promise": "^11.6.0"
   }
 }

@@ -30,10 +30,10 @@ export default class Greeter {
         this.userGreetCounter = userGreetCounter;
     }
 
-    greet(name: string, chosenLanguage: language) {
+    async greet(name: string, chosenLanguage: language) {
         let greetIn = this.greetLanguages.get(chosenLanguage);
 
-        this.userGreetCounter.countGreet(name);
+        await this.userGreetCounter.countGreet(name);
         
         if (greetIn) {
             return greetIn.greet(name);
@@ -42,11 +42,13 @@ export default class Greeter {
         return "";
     };
 
-    public get greetCounter(): number {
-        return this.userGreetCounter.greetCounter;
+    public get greetCounter(): Promise<number> {
+        return (async () => {
+            return await this.userGreetCounter.greetCounter;
+        })();
     };
 
-    userGreetCount(firstName: string): number {
-        return this.userGreetCounter.userGreetCount(firstName);
+    async userGreetCount(firstName: string): Promise<number> {
+        return await this.userGreetCounter.userGreetCount(firstName);
     };
 }

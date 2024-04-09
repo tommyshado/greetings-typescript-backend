@@ -1,6 +1,6 @@
 
 export default interface UserGreetCounter {
-    countGreet(firstName: string) : void;
-    readonly greetCounter : number;
-    userGreetCount(firstName: string) : number;
+    countGreet(firstName: string) : Promise<void>;
+    readonly greetCounter : Promise<number>;
+    userGreetCount(firstName: string) : Promise<number>;
 }
