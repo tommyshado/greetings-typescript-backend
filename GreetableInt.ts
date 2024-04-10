@@ -1,5 +1,5 @@
 import { Language } from "./Language";
 
 export default interface Greetable {
-    greet(firstName: string, language: Language) : string;
+    greet(firstName: string, language: Language) : Promise<string>;
 };

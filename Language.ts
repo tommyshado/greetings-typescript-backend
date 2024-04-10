@@ -1,5 +1,5 @@
 export enum Language {
-    tswana,
-    eng,
-    xhosa
+    Tswana,
+    English,
+    Xhosa
 };
