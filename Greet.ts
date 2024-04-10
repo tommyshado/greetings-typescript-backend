@@ -1,5 +1,6 @@
 import GreetIn from "./GreetIn";
-import { language } from "./Language";
+import Greetable from "./GreetableInt";
+import { Language } from "./Language";
 import UserGreetCounter from "./UserGreetCounterInt";
 
 export class GreetInXhosa implements GreetIn {
@@ -20,24 +21,19 @@ export class GreetInTswana implements GreetIn {
     }
 };
 
-export default class Greeter {
-    private greetLanguages: Map<language, GreetIn>
+export default class Greeter implements Greetable {
+    private greetable: Greetable;
     private userGreetCounter: UserGreetCounter
 
-    constructor(greetLanguages: Map<language, GreetIn>, userGreetCounter: UserGreetCounter) {
-        this.greetLanguages = greetLanguages;
+    constructor(greetable: Greetable, userGreetCounter: UserGreetCounter) {
+        this.greetable = greetable;
         this.userGreetCounter = userGreetCounter;
     }
 
-    async greet(name: string, chosenLanguage: language) {
-        let greetIn = this.greetLanguages.get(chosenLanguage);
-
-        await this.userGreetCounter.countGreet(name);
-        
-        if (greetIn) {
-            return greetIn.greet(name);
-        };
-        return "";
+    greet(name: string, chosenLanguage: Language) {
+        let message = this.greetable.greet(name, chosenLanguage);
+        this.userGreetCounter.countGreet(name);
+        return message;
     };
 
     public get greetCounter(): Promise<number> {
@@ -50,3 +46,18 @@ export default class Greeter {
         return await this.userGreetCounter.userGreetCount(firstName);
     };
 }
+
+export class GreetInManager implements Greetable {
+    constructor(private greetLanguages: Map<Language, GreetIn>) {
+        this.greetLanguages = greetLanguages;
+    };
+
+    greet(firstName: string, language: Language): string {
+        let greetIn = this.greetLanguages.get(language);
+
+        if (greetIn) {
+            return greetIn.greet(firstName);
+        };
+        return "";
+    }
+};
