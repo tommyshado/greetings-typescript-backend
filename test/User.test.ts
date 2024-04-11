@@ -1,14 +1,11 @@
 import assert from "assert";
-import Greeter /*, { GreetInEnglish, GreetInTswana, GreetInXhosa, GreetInManager } */ from "../Greet";
-import GreetIn from "../GreetIn";
+import Greeter from "../Greet";
 import { Language } from "../Language";
 import MapUserGreetCounter from "../UserGreetCounterImpl";
 import pool from "../model/Pool";
 import MapLangAndGreeting from "../GreetableImp";
 
 let greetMap = new MapLangAndGreeting(pool);
-// let greetInManager = new GreetInManager(greetMap);
-
 let userGreetCounterMap = new MapUserGreetCounter(pool);
 let greeter = new Greeter(greetMap, userGreetCounterMap);
 
@@ -34,6 +31,8 @@ describe("Greetings with TypeScript", async function() {
         await pool.query(insertTswanaQuery, ["Tswana", "Dumela"]);
     });
 
+    // Testing Greetable implementation
+
     it("should greet in Xhosa", async () => {
         const xhosaGreeter = await greeter.greet("FakeUserOne", Language.Xhosa);
         assert.equal("Molo FakeUserOne", xhosaGreeter);
@@ -51,33 +50,33 @@ describe("Greetings with TypeScript", async function() {
     
     // Testing UserGreetCounter implementation
     
-    // it("should increment greet counter", async () => {
-    //     await greeter.greet("User", Language.eng);
-    //     await greeter.greet("UserOne", Language.xhosa);
-    //     await greeter.greet("UserTwo", Language.eng);
+    it("should increment greet counter", async () => {
+        await greeter.greet("User", Language.English);
+        await greeter.greet("UserOne", Language.Xhosa);
+        await greeter.greet("UserTwo", Language.English);
         
-    //     assert.equal(3, await greeter.greetCounter);
+        assert.equal(3, await greeter.greetCounter);
 
-    //     await greeter.greet("UserThree", Language.xhosa);
-    //     await greeter.greet("UserFour", Language.eng);
+        // await greeter.greet("UserThree", Language.Xhosa);
+        // await greeter.greet("UserFour", Language.English);
     
-    //     assert.equal(5, await greeter.greetCounter);
-    // });
+        // assert.equal(5, await greeter.greetCounter);
+    });
     
-    // it("should get user greets", async () => {
-    //     await greeter.greet("User", Language.tswana);
-    //     await greeter.greet("User", Language.xhosa);
-    //     await greeter.greet("UserOne", Language.xhosa);
-    //     await greeter.greet("UserTwo", Language.eng);
-    //     await greeter.greet("UserTwo", Language.eng);
+    it("should get user greets", async () => {
+        await greeter.greet("User", Language.Tswana);
+        await greeter.greet("User", Language.Xhosa);
+        await greeter.greet("UserOne", Language.Xhosa);
+        await greeter.greet("UserTwo", Language.English);
+        await greeter.greet("UserTwo", Language.English);
     
-    //     assert.equal(2, await greeter.userGreetCount("User"));
+        assert.equal(2, await greeter.userGreetCount("User"));
     
-    //     await greeter.greet("UserOne", Language.xhosa);
-    //     await greeter.greet("UserTwo", Language.eng);
+        // await greeter.greet("UserOne", Language.Xhosa);
+        // await greeter.greet("UserTwo", Language.English);
     
-    //     assert.equal(3, await greeter.userGreetCount("UserTwo"));
-    // });
+        // assert.equal(3, await greeter.userGreetCount("UserTwo"));
+    });
 
     this.afterAll(async () => await pool.end());
 })
