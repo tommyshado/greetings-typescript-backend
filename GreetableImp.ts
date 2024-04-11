@@ -7,14 +7,19 @@ export default class MapLangAndGreeting implements Greetable {
         this.dbPool = dbPool;
     }
 
-    async greet(firstName: string, language: Language): Promise<string> {
-        const lang: string = Language[language];
+    async greet(firstName: string, language: string): Promise<string> {
         const query = "select greetings from language_greeting_map where language = $1";
-        const results = await this.dbPool.query(query, [lang]);
+        const results = await this.dbPool.query(query, [language]);
 
         if (results) {
             return `${results.rows[0].greetings} ${firstName}`;
         }
         return "";
+    }
+
+    async addLangAndGreeting(language: string, greeting: string): Promise<string> {
+        const query = "insert into language_greeting_map (language, greetings) values ($1, $2) returning language";
+        const results = await this.dbPool.query(query, [language, greeting]);
+        return results.rows[0].language;
     }
 };

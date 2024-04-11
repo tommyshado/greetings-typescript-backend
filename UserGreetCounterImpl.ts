@@ -2,9 +2,7 @@ import UserGreetCounter from "./UserGreetCounterInt";
 import { Pool } from "pg";
 
 export default class MapUserGreetCounter implements UserGreetCounter {
-    private dbPool: Pool;
-
-    constructor(dbPool: Pool) {
+    constructor(private dbPool: Pool) {
         this.dbPool = dbPool;
     }
 

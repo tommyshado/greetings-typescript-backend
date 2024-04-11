@@ -1,6 +1,5 @@
 import assert from "assert";
 import Greeter from "../Greet";
-import { Language } from "../Language";
 import MapUserGreetCounter from "../UserGreetCounterImpl";
 import pool from "../model/Pool";
 import MapLangAndGreeting from "../GreetableImp";
@@ -12,6 +11,11 @@ let greeter = new Greeter(greetMap, userGreetCounterMap);
 describe("Greetings with TypeScript", async function() {
     this.timeout(10000);
 
+    let zuluLanguage: string;
+    let xhosaLanguage: string;
+    let englishLanguage: string;
+    let tswanaLanguage: string;
+
     beforeEach(async () => {
         // Truncate tables before insertion
         const query = "truncate table user_greet_counter restart identity";
@@ -21,59 +25,54 @@ describe("Greetings with TypeScript", async function() {
         await pool.query(query_);
 
         // Inserting languages and greeting into the [language_greeting_map] table
-        const insertEngQuery = "insert into language_greeting_map (language, greetings) values ($1, $2)";
-        await pool.query(insertEngQuery, ["English", "Hello"]);
-
-        const insertXhosaQuery = "insert into language_greeting_map (language, greetings) values ($1, $2)";
-        await pool.query(insertXhosaQuery, ["Xhosa", "Molo"]);
-
-        const insertTswanaQuery = "insert into language_greeting_map (language, greetings) values ($1, $2)";
-        await pool.query(insertTswanaQuery, ["Tswana", "Dumela"]);
+        zuluLanguage = await greeter.addLangAndGreeting("Zulu", "Sawubona");
+        xhosaLanguage = await greeter.addLangAndGreeting("Xhosa", "Molo");
+        englishLanguage = await greeter.addLangAndGreeting("English", "Hello");
+        tswanaLanguage = await greeter.addLangAndGreeting("Tswana", "Dumela");
     });
 
     // Testing Greetable implementation
 
     it("should greet in Xhosa", async () => {
-        const xhosaGreeter = await greeter.greet("FakeUserOne", Language.Xhosa);
+        const xhosaGreeter = await greeter.greet("FakeUserOne", xhosaLanguage);
         assert.equal("Molo FakeUserOne", xhosaGreeter);
     });
     
     it("should greet in Twana", async () => {
-        const tswanaGreeter = await greeter.greet("FakeUserTwo", Language.Tswana);
+        const tswanaGreeter = await greeter.greet("FakeUserTwo", tswanaLanguage);
         assert.equal("Dumela FakeUserTwo", tswanaGreeter);
     });
     
     it("should greet in English", async () => {
-        const englishGreeter = await greeter.greet("FakeUserThree", Language.English);
+        const englishGreeter = await greeter.greet("FakeUserThree", englishLanguage);
         assert.equal("Hello FakeUserThree", englishGreeter);
     });
     
     // Testing UserGreetCounter implementation
     
     it("should increment greet counter", async () => {
-        await greeter.greet("User", Language.English);
-        await greeter.greet("UserOne", Language.Xhosa);
-        await greeter.greet("UserTwo", Language.English);
+        await greeter.greet("User", zuluLanguage);
+        await greeter.greet("UserOne", xhosaLanguage);
         
-        assert.equal(3, await greeter.greetCounter);
+        assert.equal(2, await greeter.greetCounter);
 
-        await greeter.greet("UserThree", Language.Xhosa);
-        await greeter.greet("UserFour", Language.English);
+        await greeter.greet("UserTwo", xhosaLanguage);
+        await greeter.greet("UserThree", englishLanguage);
     
-        assert.equal(5, await greeter.greetCounter);
+        assert.equal(4, await greeter.greetCounter);
     });
     
     it("should get user greets", async () => {
-        await greeter.greet("User", Language.Tswana);
-        await greeter.greet("User", Language.Xhosa);
-        await greeter.greet("UserOne", Language.Xhosa);
-        await greeter.greet("UserTwo", Language.English);
-        await greeter.greet("UserTwo", Language.English);
+        await greeter.greet("User", tswanaLanguage);
+        await greeter.greet("User", xhosaLanguage);
+        await greeter.greet("UserOne", xhosaLanguage);
+        await greeter.greet("UserTwo", englishLanguage);
+        await greeter.greet("UserTwo", englishLanguage);
     
         assert.equal(2, await greeter.userGreetCount("User"));
     
-        await greeter.greet("UserOne", Language.Xhosa);
-        await greeter.greet("UserTwo", Language.English);
+        await greeter.greet("UserOne", xhosaLanguage);
+        await greeter.greet("UserTwo", englishLanguage);
     
         assert.equal(3, await greeter.userGreetCount("UserTwo"));
     });
