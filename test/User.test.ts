@@ -57,10 +57,10 @@ describe("Greetings with TypeScript", async function() {
         
         assert.equal(3, await greeter.greetCounter);
 
-        // await greeter.greet("UserThree", Language.Xhosa);
-        // await greeter.greet("UserFour", Language.English);
+        await greeter.greet("UserThree", Language.Xhosa);
+        await greeter.greet("UserFour", Language.English);
     
-        // assert.equal(5, await greeter.greetCounter);
+        assert.equal(5, await greeter.greetCounter);
     });
     
     it("should get user greets", async () => {
@@ -72,10 +72,10 @@ describe("Greetings with TypeScript", async function() {
     
         assert.equal(2, await greeter.userGreetCount("User"));
     
-        // await greeter.greet("UserOne", Language.Xhosa);
-        // await greeter.greet("UserTwo", Language.English);
+        await greeter.greet("UserOne", Language.Xhosa);
+        await greeter.greet("UserTwo", Language.English);
     
-        // assert.equal(3, await greeter.userGreetCount("UserTwo"));
+        assert.equal(3, await greeter.userGreetCount("UserTwo"));
     });
 
     this.afterAll(async () => await pool.end());

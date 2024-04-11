@@ -14,7 +14,7 @@ export default class Greeter implements Greetable {
 
     async greet(name: string, chosenLanguage: Language) {
         let message = await this.greetable.greet(name, chosenLanguage);
-        this.userGreetCounter.countGreet(name);
+        await this.userGreetCounter.countGreet(name);
         return message;
     };
 
