@@ -1,8 +1,7 @@
-import Greetable from "./GreetableInt";
-import { Language } from "./Language";
+import Greetable from "./Greetable";
 import { Pool } from "pg";
 
-export default class MapLangAndGreeting implements Greetable {
+export default class GreetableUsingDb implements Greetable {
     constructor(private dbPool: Pool) {
         this.dbPool = dbPool;
     }
@@ -17,7 +16,7 @@ export default class MapLangAndGreeting implements Greetable {
         return "";
     }
 
-    async addLangAndGreeting(language: string, greeting: string): Promise<string> {
+    async addGreeting(language: string, greeting: string): Promise<string> {
         const query = "insert into language_greeting_map (language, greetings) values ($1, $2) returning language";
         const results = await this.dbPool.query(query, [language, greeting]);
         return results.rows[0].language;

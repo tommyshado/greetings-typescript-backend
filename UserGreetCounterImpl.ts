@@ -1,4 +1,4 @@
-import UserGreetCounter from "./UserGreetCounterInt";
+import UserGreetCounter from "./UserGreetCounter";
 import { Pool } from "pg";
 
 export default class MapUserGreetCounter implements UserGreetCounter {
