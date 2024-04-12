@@ -1,14 +1,14 @@
 import IGreetable from "./Greetable";
 import UserGreetCounter from "./UserGreetCounter";
-import MapLangAndGreeting from "./GreetableUsingDb";
+import GreetableUsingDb from "./GreetableUsingDb";
 
 export default class Greeter implements IGreetable {
-    constructor(private greetable: MapLangAndGreeting, private userGreetCounter: UserGreetCounter) {
+    constructor(private greetable: GreetableUsingDb, private userGreetCounter: UserGreetCounter) {
         this.greetable = greetable;
         this.userGreetCounter = userGreetCounter;
     }
 
-    // MapLangAndGreeting class methods
+    // GreetableUsingDb class methods
     async greet(name: string, chosenLanguage: string): Promise<string> {
         let message = await this.greetable.greet(name, chosenLanguage);
         await this.userGreetCounter.countGreet(name);
@@ -16,7 +16,7 @@ export default class Greeter implements IGreetable {
     };
 
     async addGreeting(language: string, greeting: string): Promise<string> {
-        const results = this.greetable.addGreeting(language, greeting);
+        const results = await this.greetable.addGreeting(language, greeting);
         return results;
     }
 

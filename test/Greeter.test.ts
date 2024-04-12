@@ -31,6 +31,46 @@ describe("Greetings with TypeScript", async function() {
         tswanaLanguage = await greeter.addGreeting("Tswana", "Dumela");
     });
 
+    describe("The GreetableUsingDb class", function () {
+        it("should greet in Zulu", async () => {
+            const zuluGreeter = await greetableUsingDb.greet("Anele", zuluLanguage);
+            assert.equal("Sawubona Anele", zuluGreeter);
+        });
+
+        it("should greet in Xhosa", async () => {
+            const xhosaGreeter = await greetableUsingDb.greet("Gcogco", xhosaLanguage);
+            assert.equal("Molo Gcogco", xhosaGreeter);
+        });
+
+        it("should add a language and greeting", async () => {
+            const language = await greetableUsingDb.addGreeting("French", "Bonjour");
+            assert.equal("French", language);
+        });
+    })
+
+    describe("The UserGreetCounterImpl class", function () {
+        it("should increment the greetings counter", async () => {
+            await userGreetCounterMap.countGreet("Mthunzi");
+            assert.equal(1, await userGreetCounterMap.greetCounter);
+
+            await userGreetCounterMap.countGreet("Ace");
+            assert.equal(2, await userGreetCounterMap.greetCounter);
+        });
+
+        it("should get user greetings count", async () => {
+            await userGreetCounterMap.countGreet("Mthunzi");
+            await userGreetCounterMap.countGreet("Mthunzi");
+            await userGreetCounterMap.countGreet("Mthunzi");
+
+            assert.equal(3, await userGreetCounterMap.userGreetCount("Mthunzi"));
+
+            await userGreetCounterMap.countGreet("Ace");
+            await userGreetCounterMap.countGreet("Ace");
+
+            assert.equal(2, await userGreetCounterMap.userGreetCount("Ace"));
+        });
+    })
+
     describe("The Greeter class", function () {
         it("should greet in Xhosa", async () => {
             const xhosaGreeter = await greeter.greet("Mthunzi", xhosaLanguage);
@@ -74,14 +114,6 @@ describe("Greetings with TypeScript", async function() {
             assert.equal(3, await greeter.userGreetCount("Bjorn"));
         });
     })
-
-    // describe("The GreetableUsingDb class", function () {
-
-    // })
-
-    // describe("The UserGreetCounterImpl class", function () {
-        
-    // })
 
     this.afterAll(async () => await pool.end());
 })
