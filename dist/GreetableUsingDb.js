@@ -9,33 +9,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-class MapUserGreetCounter {
+class GreetableUsingDb {
     constructor(dbPool) {
         this.dbPool = dbPool;
         this.dbPool = dbPool;
     }
-    countGreet(firstName) {
+    greet(firstName, language) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = `
-                        insert into user_greet_counter (name, greet_count) values ($1, $2) 
-                        on conflict (name) do update set greet_count = user_greet_counter.greet_count + 1
-                    `;
-            yield this.dbPool.query(query, [firstName, 1]);
+            const query = "select greetings from language_greeting_map where language = $1";
+            const results = yield this.dbPool.query(query, [language]);
+            if (results) {
+                return `${results.rows[0].greetings} ${firstName}`;
+            }
+            return "";
         });
     }
-    get greetCounter() {
-        return (() => __awaiter(this, void 0, void 0, function* () {
-            const query = "select count(*) from user_greet_counter";
-            const results = yield this.dbPool.query(query);
-            return results.rows[0].count;
-        }))();
-    }
-    userGreetCount(firstName) {
+    addGreeting(language, greeting) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "select greet_count from user_greet_counter where name = $1";
-            const results = yield this.dbPool.query(query, [firstName]);
-            return yield results.rows[0].greet_count;
+            const query = "insert into language_greeting_map (language, greetings) values ($1, $2) returning language";
+            const results = yield this.dbPool.query(query, [language, greeting]);
+            return results.rows[0].language;
+        });
+    }
+    getLanguages() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = "select language from language_greeting_map";
+            const results = yield this.dbPool.query(query);
+            return results.rows;
         });
     }
 }
-exports.default = MapUserGreetCounter;
+exports.default = GreetableUsingDb;
+;

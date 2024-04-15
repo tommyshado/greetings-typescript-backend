@@ -21,4 +21,10 @@ export default class GreetableUsingDb implements Greetable {
         const results = await this.dbPool.query(query, [language, greeting]);
         return results.rows[0].language;
     }
+
+    async getLanguages(): Promise<object[]> {
+        const query = "select language from language_greeting_map";
+        const results = await this.dbPool.query(query);
+        return results.rows;
+    }
 };

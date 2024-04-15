@@ -20,6 +20,10 @@ export default class Greeter implements IGreetable {
         return results;
     }
 
+    async getLanguages(): Promise<object[]> {
+        return await this.greetable.getLanguages();
+    };
+
     // MapUserGreetCounter class methods
     public get greetCounter(): Promise<number> {
         return (async () => {

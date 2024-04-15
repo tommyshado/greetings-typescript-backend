@@ -24,7 +24,7 @@ export default class MapUserGreetCounter implements UserGreetCounter {
 
     async userGreetCount(firstName: string): Promise<number> {
         const query = "select greet_count from user_greet_counter where name = $1";
-        const results = this.dbPool.query(query, [firstName]);
-        return (await results).rows[0].greet_count;
+        const results = await this.dbPool.query(query, [firstName]);
+        return await results.rows[0].greet_count;
     }
 }
