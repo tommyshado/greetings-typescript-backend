@@ -52,6 +52,15 @@ describe("Greetings with TypeScript", function () {
                 const language = yield greetableUsingDb.addGreeting("French", "Bonjour");
                 assert_1.default.equal("French", language);
             }));
+            it("should get all the languages", () => __awaiter(this, void 0, void 0, function* () {
+                const languages = yield greetableUsingDb.getLanguages();
+                assert_1.default.deepEqual([
+                    { language: "Zulu" },
+                    { language: "Xhosa" },
+                    { language: "English" },
+                    { language: "Tswana" },
+                ], languages);
+            }));
         });
         describe("The UserGreetCounterImpl class", function () {
             it("should increment the greetings counter", () => __awaiter(this, void 0, void 0, function* () {

@@ -8,7 +8,7 @@ let greetableUsingDb = new GreetableUsingDb(pool);
 let userGreetCounterMap = new MapUserGreetCounter(pool);
 let greeter = new Greeter(greetableUsingDb, userGreetCounterMap);
 
-describe("Greetings with TypeScript", async function() {
+describe("Greetings with TypeScript", async function () {
     this.timeout(10000);
 
     let zuluLanguage: string;
@@ -46,7 +46,20 @@ describe("Greetings with TypeScript", async function() {
             const language = await greetableUsingDb.addGreeting("French", "Bonjour");
             assert.equal("French", language);
         });
-    })
+
+        it("should get all the languages", async () => {
+            const languages = await greetableUsingDb.getLanguages();
+            assert.deepEqual(
+                [
+                    { language: "Zulu" },
+                    { language: "Xhosa" },
+                    { language: "English" },
+                    { language: "Tswana" },
+                ],
+                languages
+            );
+        });
+    });
 
     describe("The UserGreetCounterImpl class", function () {
         it("should increment the greetings counter", async () => {
@@ -69,19 +82,19 @@ describe("Greetings with TypeScript", async function() {
 
             assert.equal(2, await userGreetCounterMap.userGreetCount("Ace"));
         });
-    })
+    });
 
     describe("The Greeter class", function () {
         it("should greet in Xhosa", async () => {
             const xhosaGreeter = await greeter.greet("Mthunzi", xhosaLanguage);
             assert.equal("Molo Mthunzi", xhosaGreeter);
         });
-        
+
         it("should greet in Tswana", async () => {
             const tswanaGreeter = await greeter.greet("Katlego", tswanaLanguage);
             assert.equal("Dumela Katlego", tswanaGreeter);
         });
-        
+
         it("should greet in English", async () => {
             const englishGreeter = await greeter.greet("Nick", englishLanguage);
             assert.equal("Hello Nick", englishGreeter);
@@ -90,30 +103,30 @@ describe("Greetings with TypeScript", async function() {
         it("should increment the greeting counter", async () => {
             await greeter.greet("Bjorn", zuluLanguage);
             await greeter.greet("Kat", xhosaLanguage);
-            
+
             assert.equal(2, await greeter.greetCounter);
-    
+
             await greeter.greet("Nick", xhosaLanguage);
             await greeter.greet("Katlego", englishLanguage);
-        
+
             assert.equal(4, await greeter.greetCounter);
         });
-        
+
         it("should get user greetings count", async () => {
             await greeter.greet("Mthunzi", tswanaLanguage);
             await greeter.greet("Mthunzi", xhosaLanguage);
             await greeter.greet("Katlego", xhosaLanguage);
             await greeter.greet("Bjorn", englishLanguage);
             await greeter.greet("Bjorn", englishLanguage);
-        
+
             assert.equal(2, await greeter.userGreetCount("Mthunzi"));
-        
+
             await greeter.greet("Katlego", xhosaLanguage);
             await greeter.greet("Bjorn", englishLanguage);
-        
+
             assert.equal(3, await greeter.userGreetCount("Bjorn"));
         });
-    })
+    });
 
     this.afterAll(async () => await pool.end());
-})
+});
