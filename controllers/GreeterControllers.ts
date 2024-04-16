@@ -24,7 +24,9 @@ export default class GreeterControllers {
             if (username && language) {
                 const greeting = await this.greeter.greet(username, language);
                 res.status(200).json(greeting);
-            }    
+            } else {
+                res.status(400).json({ message: "Username and language are required." });
+            }
         } catch (error) {
             res.status(500).json({ message: "An error occurred while fetching a greeting." });
         }
@@ -45,6 +47,8 @@ export default class GreeterControllers {
             if (language && greeting) {
                 await this.greeter.addGreeting(language, greeting);
                 res.status(201).json({ message: "success" });
+            } else {
+                res.status(400).json({ message: "Language and greeting are required." });
             }
         } catch (error) {
             res.status(400).json({ message: "An error occurred while creating a greeting." });
