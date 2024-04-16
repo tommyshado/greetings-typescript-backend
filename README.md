@@ -3,6 +3,38 @@
 ## Badge
 [![Node.js CI](https://github.com/tommyshado/ts-mocha-go/actions/workflows/node.js.yml/badge.svg)](https://github.com/tommyshado/ts-mocha-go/actions/workflows/node.js.yml)
 
+## API Endpoints
+
+### Get All Languages
+
+- **Endpoint:** `/api`
+- **Method:** `GET`
+- **Description:** Retrieves a list of all available languages.
+
+### Add a Language with relevant greeting
+
+- **Endpoint:** `/api/addGreeting`
+- **Method:** `POST`
+- **Request Body:**
+ - `language`: The name of the language to add.
+ - `greeting`: The greeting text.
+- **Description:** Adds a new language & a greeting to the list of available languages & greeting.
+
+### Get Greeting Counter
+
+- **Endpoint:** `/api/counter`
+- **Method:** `GET`
+- **Description:** Retrieves the total count of all greetings.
+
+### Get a Greeting
+
+- **Endpoint:** `/api/greeting`
+- **Method:** `GET`
+- **Path Parameter:**
+ - `username`: The username of the greeting to retrieve.
+ - `language`: The language of the greeting to retrieve.
+- **Description:** Retrieves a specific greeting using a username & a language.
+
 ## Running Tests
 
 To run the tests, follow these steps:
