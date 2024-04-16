@@ -1,34 +1,20 @@
+import express from "express";
+import GreetableUsingDb from "../GreetableUsingDb";
+import MapUserGreetCounter from "../UserGreetCounterImpl";
 import Greeter from "../Greeter";
-import {Request, Response} from "express";
+import GreeterControllers from "../controllers/GreeterControllers";
+import pool from "../model/Pool";
 
-export default class GreeterRoutes {
-    constructor(private greeter: Greeter) {
-        this.greeter = greeter;
-    }
+const router = express.Router();
+const greetableWithDb = new GreetableUsingDb(pool);
+const userGreetCounter = new MapUserGreetCounter(pool);
+const greeter = new Greeter(greetableWithDb, userGreetCounter);
+const greeterControllers = new GreeterControllers(greeter);
 
-    async renderLanguages(req: Request, res: Response): Promise<void> {
-        const languages = await this.greeter.getLanguages();
-        res.render("index", {
-            languages
-        });
-    }
+// Routes
+router.get("/", greeterControllers.getLanguages);
+router.get("/greeting", greeterControllers.getGreeting);
+router.get("/counter", greeterControllers.getCounter);
+router.post("/addGreeting", greeterControllers.addGreeting);
 
-    async renderGreet (req: Request, res: Response): Promise<void> {
-        const { username, language } = req.body;
-        if (username && language) {
-            const greeting = await this.greeter.greet(username, language);
-            res.render("index", {greeting});
-        }    
-    }
-
-    async renderCounter (req: Request, res: Response): Promise<void> {
-        const greetCounter = await this.greeter.greetCounter
-        res.render("index", {greetCounter});
-    }
-
-    async addGreeting(req: Request, res: Response): Promise<void> {
-        const { language, greeting } = req.body;
-        await this.greeter.addGreeting(language, greeting);
-        res.redirect("index");
-    }
-}
+export default router;
