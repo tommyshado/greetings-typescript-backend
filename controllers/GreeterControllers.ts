@@ -22,7 +22,6 @@ export default class GreeterControllers {
                 const greeting = await this.greeter.greet(username, language);
                 res.status(200).json(greeting);
             }    
-            
         } catch (error) {
             res.status(500).json({ message: "An error occurred while fetching a greeting." });
         }
@@ -32,7 +31,6 @@ export default class GreeterControllers {
         try {
             const greetCounter = await this.greeter.greetCounter
             res.status(200).json(greetCounter)
-            
         } catch (error) {
             res.status(500).json({ message: "An error occurred while fetching a counter." });
         }
@@ -43,7 +41,6 @@ export default class GreeterControllers {
             const { language, greeting } = req.body;
             await this.greeter.addGreeting(language, greeting);
             res.status(201).json({ message: "success" });
-            
         } catch (error) {
             res.status(400).json({ message: "An error occurred while creating a greeting." });
         }

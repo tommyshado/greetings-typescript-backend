@@ -15,6 +15,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Routes middlewares
-app.use("/", router);
+app.use("/api", router);
 
 app.listen(PORT, () => console.log("🚀 Greetings started @:", PORT));
