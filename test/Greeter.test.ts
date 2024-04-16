@@ -126,6 +126,17 @@ describe("Greetings with TypeScript", async function () {
 
             assert.equal(3, await greeter.userGreetCount("Bjorn"));
         });
+
+        it("should get all the languages", async () => {
+            const languages = await greeter.getLanguages();
+            assert.deepEqual(
+            [
+                { language: "Zulu" },
+                { language: "Xhosa" },
+                { language: "English" },
+                { language: "Tswana" },
+            ], languages);
+        });
     });
 
     this.afterAll(async () => await pool.end());

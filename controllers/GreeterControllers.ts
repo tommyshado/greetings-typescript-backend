@@ -3,7 +3,10 @@ import { Request, Response } from "express";
 
 export default class GreeterControllers {
     constructor(private greeter: Greeter) {
-        this.greeter = greeter;
+        this.getLanguages = this.getLanguages.bind(this);
+        this.getGreeting = this.getGreeting.bind(this);
+        this.getCounter = this.getCounter.bind(this);
+        this.addGreeting = this.addGreeting.bind(this);
     }
 
     async getLanguages(req: Request, res: Response): Promise<void> {
@@ -39,8 +42,10 @@ export default class GreeterControllers {
     async addGreeting(req: Request, res: Response): Promise<void> {
         try {
             const { language, greeting } = req.body;
-            await this.greeter.addGreeting(language, greeting);
-            res.status(201).json({ message: "success" });
+            if (language && greeting) {
+                await this.greeter.addGreeting(language, greeting);
+                res.status(201).json({ message: "success" });
+            }
         } catch (error) {
             res.status(400).json({ message: "An error occurred while creating a greeting." });
         }

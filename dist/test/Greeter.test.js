@@ -111,6 +111,15 @@ describe("Greetings with TypeScript", function () {
                 yield greeter.greet("Bjorn", englishLanguage);
                 assert_1.default.equal(3, yield greeter.userGreetCount("Bjorn"));
             }));
+            it("should get all the languages", () => __awaiter(this, void 0, void 0, function* () {
+                const languages = yield greeter.getLanguages();
+                assert_1.default.deepEqual([
+                    { language: "Zulu" },
+                    { language: "Xhosa" },
+                    { language: "English" },
+                    { language: "Tswana" },
+                ], languages);
+            }));
         });
         this.afterAll(() => __awaiter(this, void 0, void 0, function* () { return yield Pool_1.default.end(); }));
     });

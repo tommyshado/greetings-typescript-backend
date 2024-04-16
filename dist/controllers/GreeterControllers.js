@@ -12,7 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class GreeterControllers {
     constructor(greeter) {
         this.greeter = greeter;
-        this.greeter = greeter;
+        this.getLanguages = this.getLanguages.bind(this);
+        this.getGreeting = this.getGreeting.bind(this);
+        this.getCounter = this.getCounter.bind(this);
+        this.addGreeting = this.addGreeting.bind(this);
     }
     getLanguages(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -54,8 +57,10 @@ class GreeterControllers {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { language, greeting } = req.body;
-                yield this.greeter.addGreeting(language, greeting);
-                res.status(201).json({ message: "success" });
+                if (language && greeting) {
+                    yield this.greeter.addGreeting(language, greeting);
+                    res.status(201).json({ message: "success" });
+                }
             }
             catch (error) {
                 res.status(400).json({ message: "An error occurred while creating a greeting." });
