@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/Server.js",
-  "type": "module",
   "scripts": {
     "test": "ts-mocha test/*.ts",
-    "start": "tsc && node ./dist/Server.js"
+    "start": "node ./dist/Server.js"
   },
   "keywords": [],
   "author": "",
