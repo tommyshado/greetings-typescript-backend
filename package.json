@@ -4,7 +4,8 @@
   "description": "",
   "main": "Server.ts",
   "scripts": {
-    "test": "ts-mocha test/*.ts"
+    "test": "ts-mocha test/*.ts",
+    "start": "tsc && node ./dist/Server.js"
   },
   "keywords": [],
   "author": "",
