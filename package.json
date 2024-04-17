@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "Server.ts",
+  "type": "module",
   "scripts": {
     "test": "ts-mocha test/*.ts",
     "start": "tsc && node ./dist/Server.js"
