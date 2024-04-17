@@ -1,19 +1,14 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const body_parser_1 = __importDefault(require("body-parser"));
-const cors_1 = __importDefault(require("cors"));
-const GreeterRoutes_1 = __importDefault(require("./routes/GreeterRoutes"));
-const app = (0, express_1.default)();
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+import router from "./routes/GreeterRoutes";
+const app = express();
 const PORT = process.env.PORT || 8080;
-app.use((0, cors_1.default)());
+app.use(cors());
 // parse application/x-www-form-urlencoded
-app.use(body_parser_1.default.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
-app.use(body_parser_1.default.json());
+app.use(bodyParser.json());
 // Routes middlewares
-app.use("/api", GreeterRoutes_1.default);
+app.use("/api", router);
 app.listen(PORT, () => console.log("🚀 Greetings started @:", PORT));
