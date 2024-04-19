@@ -10,7 +10,7 @@ const router = express_1.default.Router();
 const greeterControllers = new GreeterControllers_1.default(GreeterUtils_1.default);
 // Routes
 router.get("/", greeterControllers.getLanguages);
-router.get("/greeting", greeterControllers.getGreeting);
+router.post("/greeting", greeterControllers.getGreeting);
 router.get("/counter", greeterControllers.getCounter);
 router.post("/addGreeting", greeterControllers.addGreeting);
 exports.default = router;

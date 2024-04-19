@@ -7,7 +7,7 @@ const greeterControllers = new GreeterControllers(greeter);
 
 // Routes
 router.get("/", greeterControllers.getLanguages);
-router.get("/greeting", greeterControllers.getGreeting);
+router.post("/greeting", greeterControllers.getGreeting);
 router.get("/counter", greeterControllers.getCounter);
 router.post("/addGreeting", greeterControllers.addGreeting);
 
