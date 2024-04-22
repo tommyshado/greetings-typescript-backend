@@ -1,7 +1,16 @@
-# greetings-typescript-backend
+# Greetings-Typescript-Backend
+
+This project is a backend application for managing greetings in various languages. It provides a RESTful API for interacting with greeting data.
 
 ## Badge
 [![Node.js CI](https://github.com/tommyshado/ts-mocha-go/actions/workflows/node.js.yml/badge.svg)](https://github.com/tommyshado/ts-mocha-go/actions/workflows/node.js.yml)
+
+## API Documentation
+
+The base URL for all API endpoints is: 
+```
+https://greetings-typescript-backend.onrender.com/api
+```
 
 ## API Endpoints
 
@@ -53,3 +62,11 @@ To run the tests, follow these steps:
 
 - If you encounter any issues running the tests, ensure that all dependencies are correctly installed and that your environment meets the project's requirements.
 - For more detailed information on the tests, including coverage reports, refer to the `test` directory and the `ts-mocha` configuration in the `package.json` file.
+
+### Contributing
+
+If you're interested in contributing to this project, please see the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines.
+
+### License
+
+This project is licensed under the [ISC License](LICENSE).
