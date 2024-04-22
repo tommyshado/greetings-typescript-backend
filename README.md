@@ -63,7 +63,7 @@ To run the tests, follow these steps:
 - If you encounter any issues running the tests, ensure that all dependencies are correctly installed and that your environment meets the project's requirements.
 - For more detailed information on the tests, including coverage reports, refer to the `test` directory and the `ts-mocha` configuration in the `package.json` file.
 
-### Contributing
+## Contributing
 
 If you're interested in contributing to this project, please see the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines.
 
