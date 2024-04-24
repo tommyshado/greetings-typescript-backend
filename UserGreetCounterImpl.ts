@@ -2,9 +2,7 @@ import UserGreetCounter from "./UserGreetCounter";
 import { Pool } from "pg";
 
 export default class MapUserGreetCounter implements UserGreetCounter {
-    constructor(private dbPool: Pool) {
-        this.dbPool = dbPool;
-    }
+    constructor(private dbPool: Pool) {}
 
     async countGreet(firstName: string): Promise<void> {
         const query = `

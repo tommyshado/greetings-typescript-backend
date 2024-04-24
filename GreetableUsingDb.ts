@@ -2,9 +2,7 @@ import Greetable from "./Greetable";
 import { Pool } from "pg";
 
 export default class GreetableUsingDb implements Greetable {
-    constructor(private dbPool: Pool) {
-        this.dbPool = dbPool;
-    }
+    constructor(private dbPool: Pool) {}
 
     async greet(firstName: string, language: string): Promise<string> {
         const query = "select greetings from language_greeting_map where language = $1";

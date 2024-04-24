@@ -1,14 +1,13 @@
-import IGreetable from "./Greetable";
-import UserGreetCounter from "./UserGreetCounter";
+import UserGreetCounter from "./UserGreetCounterImpl";
 import GreetableUsingDb from "./GreetableUsingDb";
+import IGreetable from "./Greetable";
+import IUserGreetCounter from "./UserGreetCounter";
 
-export default class Greeter implements IGreetable {
-    constructor(private greetable: GreetableUsingDb, private userGreetCounter: UserGreetCounter) {
-        this.greetable = greetable;
-        this.userGreetCounter = userGreetCounter;
-    }
+interface GreetableAndCounter extends IGreetable, IUserGreetCounter {};
 
-    // GreetableUsingDb class methods
+export default class Greeter implements GreetableAndCounter {
+    constructor(private greetable: GreetableUsingDb, private userGreetCounter: UserGreetCounter) {}
+
     async greet(name: string, chosenLanguage: string): Promise<string> {
         let message = await this.greetable.greet(name, chosenLanguage);
         await this.userGreetCounter.countGreet(name);
@@ -20,11 +19,14 @@ export default class Greeter implements IGreetable {
         return results;
     }
 
+    async countGreet(firstName: string): Promise<void> {
+        await this.userGreetCounter.countGreet(firstName);
+    }
+
     async getLanguages(): Promise<object[]> {
         return await this.greetable.getLanguages();
     };
 
-    // MapUserGreetCounter class methods
     public get greetCounter(): Promise<number> {
         return (async () => {
             return await this.userGreetCounter.greetCounter;
