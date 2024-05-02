@@ -1,7 +1,14 @@
 import Greeter from "../Greeter";
 import { Request, Response } from "express";
 
+/**
+ * @classdesc A controller for handling requests related to greetings.
+ */
 export default class GreeterControllers {
+    /**
+     * @constructor
+     * @param {Greeter} greeter - An instance of the Greeter class.
+     */
     constructor(private greeter: Greeter) {
         this.getLanguages = this.getLanguages.bind(this);
         this.getGreeting = this.getGreeting.bind(this);
@@ -9,6 +16,12 @@ export default class GreeterControllers {
         this.addGreeting = this.addGreeting.bind(this);
     }
 
+    /**
+     * Fetches all available languages.
+     * @param {Request} req - The Express request object.
+     * @param {Response} res - The Express response object.
+     * @returns {Promise<void>} A promise that resolves when the response is sent.
+     */
     async getLanguages(req: Request, res: Response): Promise<void> {
         try {
             const languages = await this.greeter.getLanguages();
@@ -18,6 +31,12 @@ export default class GreeterControllers {
         }
     }
 
+    /**
+     * Fetches a greeting for the specified username and language.
+     * @param {Request} req - The Express request object.
+     * @param {Response} res - The Express response object.
+     * @returns {Promise<void>} A promise that resolves when the response is sent.
+     */
     async getGreeting(req: Request, res: Response): Promise<void> {
         try {
             const { username, language } = req.body;
@@ -32,15 +51,27 @@ export default class GreeterControllers {
         }
     }
 
+    /**
+     * Fetches the current greeting counter.
+     * @param {Request} req - The Express request object.
+     * @param {Response} res - The Express response object.
+     * @returns {Promise<void>} A promise that resolves when the response is sent.
+     */
     async getCounter(req: Request, res: Response): Promise<void> {
         try {
-            const greetCounter = await this.greeter.greetCounter
-            res.status(200).json(greetCounter)
+            const greetCounter = await this.greeter.greetCounter;
+            res.status(200).json(greetCounter);
         } catch (error) {
             res.status(500).json({ message: "An error occurred while fetching a counter." });
         }
     }
 
+    /**
+     * Adds a new greeting in the specified language.
+     * @param {Request} req - The Express request object.
+     * @param {Response} res - The Express response object.
+     * @returns {Promise<void>} A promise that resolves when the response is sent.
+     */
     async addGreeting(req: Request, res: Response): Promise<void> {
         try {
             const { language, greeting } = req.body;
